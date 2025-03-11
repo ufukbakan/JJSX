@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -11,6 +11,7 @@
     }
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "tsc -b --clean && tsc -b",
     "build2": "tsc -b --clean && tsup src/index.ts"
   },
