@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="logo.svg" height="120">
+    <img src="https://raw.githubusercontent.com/ufukbakan/JJSX/refs/heads/main/logo.svg" height="120">
 </h1>
 <center>just jsx</center>
 
