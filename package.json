@@ -1,0 +1,35 @@
+{
+  "name": "jjsx",
+  "version": "1.0.0",
+  "description": "just jsx",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b --clean && tsc -b",
+    "build2": "tsc -b --clean && tsup src/index.ts"
+  },
+  "keywords": [
+    "jjsx",
+    "jsx",
+    "javascript",
+    "typescript",
+    "ts",
+    "js"
+  ],
+  "author": {
+    "name": "Ufuk Bakan",
+    "email": "println.ufukbakan@gmail.com",
+    "url": "https://www.linkedin.com/in/ufuk-bakan"
+  },
+  "license": "BSD-4-Clause",
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "5"
+  }
+}
