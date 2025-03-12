@@ -4,13 +4,16 @@ export namespace JJSX {
   }
 
   export interface Element<T extends ElementProps> {
-    type: string | ((arg: T) => Element<T>) | Element<T>;
+    type: string | ((arg: T) => Element<T>) | Element<T> | RenderableClass;
     props: T;
+    children: Element<any>[]
   }
 
   export interface RenderableClass {
     render(): Renderable<any>;
   }
+
+  export type RenderableClassConstructor<T extends ElementProps> = new (props: T) => RenderableClass;
 
   export type Renderable<T extends ElementProps> = string | Element<T> | RenderableClass | (string | Element<T> | RenderableClass)[];
 

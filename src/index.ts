@@ -25,10 +25,10 @@ export function jsxFactory(type: JSX.Element<JSX.ElementProps>, props: JSX.Eleme
   if (!props) {
     props = { children };
   }
-  props.children = props.children || children || [];
   return {
     type,
     props,
+    children,
   };
 }
 
@@ -36,17 +36,27 @@ export function fragmentFactory(args: { children: JSX.Element<JSX.ElementProps>[
   return args.children;
 }
 
+function isClassConstructor<T>(o: any): o is T {
+  return o && o.prototype?.constructor === o;
+}
+
 export function transpile(jsx: JSX.Renderable<any>): string {
+  if (!jsx) return "";
+  if (typeof jsx === "boolean") return "";
   if (typeof jsx === "string") return jsx;
   if (typeof jsx === "number") return `${jsx}`;
-  if ("render" in jsx) return transpile(jsx.render());
+  if (typeof jsx === "object" && "render" in jsx) return transpile(jsx.render());
   if (Array.isArray(jsx)) return jsx.map(transpile).join("");
-  if (typeof jsx === "object" && jsx !== null) {
-    const { type, props } = jsx;
+  if (typeof jsx === "object") {
+    const { type, props, children: jsxChildren } = jsx;
+    if (!type) return "";
+    if (isClassConstructor<JJSX.RenderableClassConstructor<any>>(type)) {
+      return transpile(new type(props));
+    }
     if (typeof type === "function") {
       return transpile(type(props));
     }
-    const children = props.children.map(transpile).join("");
+    const children = (jsxChildren || []).map(transpile).join("");
     const attrs = Object.entries(props || {})
       .filter(([key]) => key !== "children")
       .map(([key, value]) => ` ${key}="${value}"`)
