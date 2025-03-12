@@ -1,19 +1,18 @@
 {
   "name": "jjsx",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "tsc -b --clean && tsc -b",
-    "build2": "tsc -b --clean && tsup src/index.ts"
+    "build": "tsc -b --clean && tsup src/**/*.ts --minify --format cjs && tsc --emitDeclarationOnly && node postbuild.mjs"
   },
   "keywords": [
     "jjsx",
@@ -21,7 +20,10 @@
     "javascript",
     "typescript",
     "ts",
-    "js"
+    "js",
+    "pure jsx",
+    "just jsx",
+    "jsx for node"
   ],
   "author": {
     "name": "Ufuk Bakan",
@@ -30,6 +32,9 @@
   },
   "license": "BSD-4-Clause",
   "devDependencies": {
+    "@types/node": "^22.13.10",
+    "dts-minify": "^0.3.3",
+    "glob": "^11.0.1",
     "tsup": "^8.4.0",
     "typescript": "5"
   }

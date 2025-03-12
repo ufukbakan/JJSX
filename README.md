@@ -21,6 +21,7 @@ After installing jjsx, adding only 4 properties to tsconfig is enough:
     "jsxFactory": "JJSX.jsxFactory",
     "jsxFragmentFactory": "JJSX.fragmentFactory",
     "types": ["jjsx"],
+    "lib": ["DOM", "ES2017"] // This is recommended but not required
     // ...rest
   }
   // ...
