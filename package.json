@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -12,7 +12,8 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "tsc -b --clean && tsup src/**/*.ts --minify --format cjs && tsc --emitDeclarationOnly && node postbuild.mjs"
+    "build": "tsc -b --clean && tsup src/**/*.ts --minify --format cjs && tsc -p tsconfig.build.json --emitDeclarationOnly && node postbuild.mjs",
+    "test": "vitest run --coverage"
   },
   "keywords": [
     "jjsx",
@@ -33,9 +34,11 @@
   "license": "BSD-4-Clause",
   "devDependencies": {
     "@types/node": "^22.13.10",
+    "@vitest/coverage-v8": "^3.0.8",
     "dts-minify": "^0.3.3",
     "glob": "^11.0.1",
     "tsup": "^8.4.0",
-    "typescript": "5"
+    "typescript": "5",
+    "vitest": "^3.0.8"
   }
 }
