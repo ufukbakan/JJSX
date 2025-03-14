@@ -10,7 +10,15 @@ function ChildComponent(props: Record<string, any>) {
     return <div {...props}></div>
 }
 
-test("Function Component Test", () => {
-    const htmlString = transpile(<ParentComponent val="xyz" />);
-    expect(htmlString).toEqual('<div val="xyz"></div>')
+describe("Function Component Test", () => {
+
+    test("With JSX Call", () => {
+        const htmlString = transpile(<ParentComponent val="xyz" />);
+        expect(htmlString).toEqual('<div val="xyz"></div>')
+    })
+
+    test("With Function Call", () => {
+        const htmlString = transpile(ParentComponent({ val: "xyz" }));
+        expect(htmlString).toEqual('<div val="xyz"></div>')
+    })
 });

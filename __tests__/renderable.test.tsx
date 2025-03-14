@@ -8,7 +8,7 @@ describe("Renderable test", () => {
     })
 
     test("render numbers", () => {
-        const html = transpile("123");
+        const html = transpile(123  as any);
         expect(html).toEqual("123");
     })
 
@@ -23,4 +23,9 @@ describe("Renderable test", () => {
         expect(transpile([] as any)).toEqual("");
         expect(transpile({} as any)).toEqual("");
     })
+
+    test("dont render unknown types", () => {
+        class UnknownClass { };
+        expect(transpile(UnknownClass as any)).toEqual("");
+    });
 });
