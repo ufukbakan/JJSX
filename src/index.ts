@@ -24,9 +24,9 @@ export function init() {
   globalThis.JJSX = jjsxModule;
 }
 
-export function jsxFactory(type: JSX.Element<JSX.ElementProps>, props: JSX.ElementProps, ...children: any[]): JSX.Element<JSX.ElementProps> {
+export function jsxFactory<T extends JSX.ElementProps>(type: () => JSX.Element<T>, props: T, ...children: any[]): JSX.Element<T> {
   if (!props) {
-    props = { children };
+    props = { children } as T;
   }
   return {
     type,
