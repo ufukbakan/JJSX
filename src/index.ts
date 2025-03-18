@@ -13,6 +13,9 @@ declare global {
     type Element<T extends ElementProps> = JJSX.Element<T>;
     type ElementProps = JJSX.ElementProps;
     type Renderable<T extends ElementProps> = JJSX.Renderable<T>;
+    interface ElementChildrenAttribute {
+      children: unknown;
+    }
   }
   var JJSX: typeof jjsxModule;
 }
