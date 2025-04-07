@@ -138,5 +138,58 @@ export namespace JJSX {
     video: Record<string, string> | JsxAttributes<HTMLVideoElement>;
     wbr: Record<string, string> | JsxAttributes<HTMLElement>;
     webview: Record<string, string> | JsxAttributes<HTMLElement>;
+    // SVG elements
+    svg: Record<string, string> | JsxAttributes<SVGSVGElement>;
+    circle: Record<string, string> | JsxAttributes<SVGCircleElement>;
+    ellipse: Record<string, string> | JsxAttributes<SVGEllipseElement>;
+    line: Record<string, string> | JsxAttributes<SVGLineElement>;
+    path: Record<string, string> | JsxAttributes<SVGPathElement>;
+    polygon: Record<string, string> | JsxAttributes<SVGPolygonElement>;
+    polyline: Record<string, string> | JsxAttributes<SVGPolylineElement>;
+    rect: Record<string, string> | JsxAttributes<SVGRectElement>;
+    g: Record<string, string> | JsxAttributes<SVGGElement>;
+    text: Record<string, string> | JsxAttributes<SVGTextElement>;
+    tspan: Record<string, string> | JsxAttributes<SVGTSpanElement>;
+    defs: Record<string, string> | JsxAttributes<SVGDefsElement>;
+    linearGradient: Record<string, string> | JsxAttributes<SVGLinearGradientElement>;
+    radialGradient: Record<string, string> | JsxAttributes<SVGRadialGradientElement>;
+    stop: Record<string, string> | JsxAttributes<SVGStopElement>;
+    use: Record<string, string> | JsxAttributes<SVGUseElement>;
+    symbol: Record<string, string> | JsxAttributes<SVGSymbolElement>;
+    marker: Record<string, string> | JsxAttributes<SVGMarkerElement>;
+    clipPath: Record<string, string> | JsxAttributes<SVGClipPathElement>;
+    mask: Record<string, string> | JsxAttributes<SVGMaskElement>;
+    pattern: Record<string, string> | JsxAttributes<SVGPatternElement>;
+    filter: Record<string, string> | JsxAttributes<SVGFilterElement>;
+    feBlend: Record<string, string> | JsxAttributes<SVGFEBlendElement>;
+    feColorMatrix: Record<string, string> | JsxAttributes<SVGFEColorMatrixElement>;
+    feComponentTransfer: Record<string, string> | JsxAttributes<SVGFEComponentTransferElement>;
+    feComposite: Record<string, string> | JsxAttributes<SVGFECompositeElement>;
+    feConvolveMatrix: Record<string, string> | JsxAttributes<SVGFEConvolveMatrixElement>;
+    feDiffuseLighting: Record<string, string> | JsxAttributes<SVGFEDiffuseLightingElement>;
+    feDisplacementMap: Record<string, string> | JsxAttributes<SVGFEDisplacementMapElement>;
+    feDropShadow: Record<string, string> | JsxAttributes<SVGFEDropShadowElement>;
+    feFlood: Record<string, string> | JsxAttributes<SVGFEFloodElement>;
+    feGaussianBlur: Record<string, string> | JsxAttributes<SVGFEGaussianBlurElement>;
+    feImage: Record<string, string> | JsxAttributes<SVGFEImageElement>;
+    feMerge: Record<string, string> | JsxAttributes<SVGFEMergeElement>;
+    feMergeNode: Record<string, string> | JsxAttributes<SVGFEMergeNodeElement>;
+    feMorphology: Record<string, string> | JsxAttributes<SVGFEMorphologyElement>;
+    feOffset: Record<string, string> | JsxAttributes<SVGFEOffsetElement>;
+    feSpecularLighting: Record<string, string> | JsxAttributes<SVGFESpecularLightingElement>;
+    feTile: Record<string, string> | JsxAttributes<SVGFETileElement>;
+    feTurbulence: Record<string, string> | JsxAttributes<SVGFETurbulenceElement>;
+    // XML-like/MathML elements (generic, no specific DOM type)
+    math: Record<string, string> | JsxAttributes<HTMLElement>;
+    mrow: Record<string, string> | JsxAttributes<HTMLElement>;
+    mi: Record<string, string> | JsxAttributes<HTMLElement>;
+    mo: Record<string, string> | JsxAttributes<HTMLElement>;
+    mn: Record<string, string> | JsxAttributes<HTMLElement>;
+    msqrt: Record<string, string> | JsxAttributes<HTMLElement>;
+    mfrac: Record<string, string> | JsxAttributes<HTMLElement>;
+    mroot: Record<string, string> | JsxAttributes<HTMLElement>;
+    mstyle: Record<string, string> | JsxAttributes<HTMLElement>;
+    semantics: Record<string, string> | JsxAttributes<HTMLElement>;
+    annotation: Record<string, string> | JsxAttributes<HTMLElement>;
   }
 }

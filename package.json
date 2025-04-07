@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -30,6 +30,10 @@
     "name": "Ufuk Bakan",
     "email": "println.ufukbakan@gmail.com",
     "url": "https://www.linkedin.com/in/ufuk-bakan"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ufukbakan/jjsx"
   },
   "license": "BSD-4-Clause",
   "devDependencies": {
