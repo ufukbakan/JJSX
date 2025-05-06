@@ -64,6 +64,7 @@ export function transpile(jsx: JSX.Renderable<any>): string {
       .filter(([key]) => key !== "children")
       .map(([key, value]) => ` ${key}="${value}"`)
       .join("");
+    if(!attrs && !children) return `<${type}/>`;
     return `<${type}${attrs}>${children}</${type}>`;
   }
   return "";
