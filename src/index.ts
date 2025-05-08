@@ -43,6 +43,34 @@ function isClassConstructor<T>(o: any): o is T {
   return o && o.toString && o.toString().startsWith("class") && o.prototype?.constructor === o;
 }
 
+const voidTags = [
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+];
+
+function handleSpecialAttribute(pair: [string, any]): [string, any] {
+  const [key, value] = pair;
+  if (key === "className") {
+    return ["class", value];
+  }
+  if (key === "htmlFor") {
+    return ["for", value];
+  }
+  return [key, value];
+}
+
 export function transpile(jsx: JSX.Renderable<any>): string {
   if (!jsx) return "";
   if (typeof jsx === "boolean") return "";
@@ -62,9 +90,10 @@ export function transpile(jsx: JSX.Renderable<any>): string {
     const children = jsxChildren.map(transpile).join("");
     const attrs = Object.entries(props)
       .filter(([key]) => key !== "children")
+      .map(handleSpecialAttribute)
       .map(([key, value]) => ` ${key}="${value}"`)
       .join("");
-    if(!attrs && !children) return `<${type}/>`;
+    if (voidTags.includes(type)) return `<${type}${attrs}>`;
     return `<${type}${attrs}>${children}</${type}>`;
   }
   return "";

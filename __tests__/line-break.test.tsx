@@ -11,5 +11,5 @@ test("Line break test", () => {
         <p>paragraph 3</p>
     </>;
     const htmlString = transpile(element);
-    expect(htmlString).toEqual(`<p>paragraph 1</p><br/><p>paragraph 2</p><br/><p>paragraph 3</p>`)
+    expect(htmlString).toEqual(`<p>paragraph 1</p><br><p>paragraph 2</p><br><p>paragraph 3</p>`)
 });

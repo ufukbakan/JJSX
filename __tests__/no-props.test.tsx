@@ -13,5 +13,5 @@ test("No props Test", () => {
         <wbr></wbr>
     </>;
     const htmlString = transpile(element);
-    expect(htmlString).toEqual(`<div/><hr/><div/><br/><input/><area/><wbr/>`)
+    expect(htmlString).toEqual(`<div></div><hr><div></div><br><input><area><wbr>`)
 });
