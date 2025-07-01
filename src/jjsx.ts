@@ -15,7 +15,9 @@ export namespace JJSX {
 
   export type RenderableClassConstructor<T extends ElementProps> = new (props: T) => RenderableClass;
 
-  export type Renderable<T extends ElementProps> = string | Element<T> | RenderableClass | Renderable<any>[];
+  type RenderablePrimitives = string | number | boolean | null | undefined;
+
+  export type Renderable<T extends ElementProps> = RenderablePrimitives | Element<T> | RenderableClass | Renderable<any>[];
 
   type JsxAttributes<T> = Partial<T> | { children?: Renderable<any> };
 
