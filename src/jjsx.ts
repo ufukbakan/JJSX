@@ -1,25 +1,25 @@
 export namespace JJSX {
   export interface ElementProps {
-    children: Renderable<any>;
+    children?: Renderable;
   }
 
   export interface Element<T extends ElementProps> {
-    type: string | ((arg: T) => Renderable<T>);
+    type: string | ((arg: T) => Renderable);
     props: T;
-    children: Renderable<any>[];
+    children: Renderable[];
   }
 
   export interface RenderableClass {
-    render(): Renderable<any>;
+    render(): Renderable;
   }
 
   export type RenderableClassConstructor<T extends ElementProps> = new (props: T) => RenderableClass;
 
   type RenderablePrimitives = string | number | boolean | null | undefined;
 
-  export type Renderable<T extends ElementProps> = RenderablePrimitives | Element<T> | RenderableClass | Renderable<any>[];
+  export type Renderable = RenderablePrimitives | Element<any> | RenderableClass | Renderable[];
 
-  type JsxAttributes<T> = Partial<T> | { children?: Renderable<any> };
+  type JsxAttributes<T> = Partial<T> | { children?: Renderable };
 
   export interface IntrinsicElements {
     a: Record<string, string> | JsxAttributes<HTMLAnchorElement>;

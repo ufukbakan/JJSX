@@ -12,7 +12,7 @@ declare global {
     type IntrinsicElements = JJSX.IntrinsicElements;
     type Element<T extends ElementProps> = JJSX.Element<T>;
     type ElementProps = JJSX.ElementProps;
-    type Renderable<T extends ElementProps> = JJSX.Renderable<T>;
+    type Renderable = JJSX.Renderable;
     interface ElementChildrenAttribute {
       children: unknown;
     }
@@ -27,6 +27,9 @@ export function init() {
 export function jsxFactory<T extends JSX.ElementProps>(type: () => JSX.Element<T>, props: T, ...children: any[]): JSX.Element<T> {
   if (!props) {
     props = { children } as T;
+  } else {
+    // Merge children into props if props already exists
+    props = { ...props, children } as T;
   }
   return {
     type,
@@ -71,7 +74,7 @@ function handleSpecialAttribute(pair: [string, any]): [string, any] {
   return [key, value];
 }
 
-export function transpile(jsx: JSX.Renderable<any>): string {
+export function transpile(jsx: JSX.Renderable): string {
   if (!jsx) return "";
   if (typeof jsx === "boolean") return "";
   if (typeof jsx === "string") return jsx;
@@ -85,7 +88,8 @@ export function transpile(jsx: JSX.Renderable<any>): string {
       return transpile(new type(props));
     }
     if (typeof type === "function") {
-      return transpile(type(props));
+      const propsWithChildren = { ...props, children: jsxChildren };
+      return transpile(type(propsWithChildren));
     }
     const children = jsxChildren.map(transpile).join("");
     const attrs = Object.entries(props)
