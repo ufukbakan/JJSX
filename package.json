@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "tsc -b --clean && tsup src/**/*.ts --minify --format cjs && tsc -p tsconfig.build.json --emitDeclarationOnly && node postbuild.mjs",
+    "build": "tsup && node postbuild.mjs",
     "test": "vitest run --coverage"
   },
   "keywords": [

@@ -3,7 +3,7 @@ import { init, transpile } from "../src";
 init();
 
 interface Props extends Record<string, any> {
-    children?: JSX.Renderable;
+    children?: JSX.Element;
 }
 
 function Component({ children, ...props }: Props) {

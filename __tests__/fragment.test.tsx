@@ -12,7 +12,7 @@ test("Fragment Test", () => {
 });
 
 test("Fragment children test", () => {
-    const Wrapper = ({ children }: { children: JSX.Renderable }) => {
+    const Wrapper = ({ children }: { children: JSX.Element }) => {
         return (
             <div id="wrapper">
                 {children}

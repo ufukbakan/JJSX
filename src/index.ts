@@ -10,9 +10,10 @@ const jjsxModule = {
 declare global {
   namespace JSX {
     type IntrinsicElements = JJSX.IntrinsicElements;
-    type Element<T extends ElementProps> = JJSX.Element<T>;
-    type ElementProps = JJSX.ElementProps;
-    type Renderable = JJSX.Renderable;
+    type Element = JJSX.Element;
+    type Component<T extends JJSX.ComponentProps> = JJSX.Component<T>
+    type FunctionComponent<T> = (props: T) => JSX.Element;
+    type ComponentProps = JJSX.ComponentProps;
     interface ElementChildrenAttribute {
       children: unknown;
     }
@@ -24,7 +25,7 @@ export function init() {
   globalThis.JJSX = jjsxModule;
 }
 
-export function jsxFactory<T extends JSX.ElementProps>(type: () => JSX.Element<T>, props: T, ...children: any[]): JSX.Element<T> {
+export function jsxFactory<T extends JSX.ComponentProps>(type: () => JSX.Element, props: T, ...children: any[]): JSX.Element {
   if (!props) {
     props = { children } as T;
   } else {
@@ -38,7 +39,7 @@ export function jsxFactory<T extends JSX.ElementProps>(type: () => JSX.Element<T
   };
 }
 
-export function fragmentFactory(args: { children: JSX.Element<JSX.ElementProps>[] }): JSX.Element<JSX.ElementProps>[] {
+export function fragmentFactory(args: { children: JSX.Element[] }): JSX.Element[] {
   return args.children;
 }
 
@@ -63,22 +64,32 @@ const voidTags = [
   "wbr",
 ];
 
-function handleSpecialAttribute(pair: [string, any]): [string, any] {
+function handleAttribute(pair: [string, any]): [string, any] {
   const [key, value] = pair;
   if (key === "className") {
-    return ["class", value];
+    return handleAttribute(["class", value]);
   }
   if (key === "htmlFor") {
-    return ["for", value];
+    return handleAttribute(["for", value]);
   }
-  return [key, value];
+  const replaceMap = {
+    '&': '&amp;',
+    '"': '&quot;',
+    "'": '&apos;',
+    '<': '&lt;',
+    '>': '&gt;',
+  };
+  const replacedValue = Object.keys(replaceMap).reduce((acc, key) => {
+    return acc.replace(new RegExp(key, 'g'), replaceMap[key as keyof typeof replaceMap]);
+  }, value);
+  return [key, replacedValue];
 }
 
-export function transpile(jsx: JSX.Renderable): string {
-  if (!jsx) return "";
+export function transpile(jsx: JSX.Element): string {
   if (typeof jsx === "boolean") return "";
   if (typeof jsx === "string") return jsx;
   if (typeof jsx === "number") return `${jsx}`;
+  if (!jsx) return "";
   if (typeof jsx === "object" && "render" in jsx) return transpile(jsx.render());
   if (Array.isArray(jsx)) return jsx.map(transpile).join("");
   if (typeof jsx === "object") {
@@ -94,7 +105,7 @@ export function transpile(jsx: JSX.Renderable): string {
     const children = jsxChildren.map(transpile).join("");
     const attrs = Object.entries(props)
       .filter(([key]) => key !== "children")
-      .map(handleSpecialAttribute)
+      .map(handleAttribute)
       .map(([key, value]) => ` ${key}="${value}"`)
       .join("");
     if (voidTags.includes(type)) return `<${type}${attrs}>`;

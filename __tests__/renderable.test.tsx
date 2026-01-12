@@ -10,6 +10,7 @@ describe("Renderable test", () => {
     test("render numbers", () => {
         const html = transpile(123  as any);
         expect(html).toEqual("123");
+        expect(transpile(0)).toEqual("0");
     })
 
     test("dont render booleans", () => {

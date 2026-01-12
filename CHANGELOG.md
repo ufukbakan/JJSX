@@ -1,0 +1,24 @@
+# v3.0.0 
+(2025-01-12)
+
+## Breaking Changes:
+- Switched build format from CJS to ESM
+- Renamed `JSX.Element<T>` to `JSX.Component<T>` for better compability
+- Renamed `JSX.Renderable` to `JSX.Element` for better compability
+- That means you can now use `JSX.Element` as a return type for components without generic parameter
+- Renamed 'ElementProps' to 'ComponentProps' for better convention
+- Updated type definitions to use `JSX.Element` as the primary renderable type
+- Added attribute escaping for HTML special characters (&, ", ', <, >)
+
+## Features:
+- Added JSX.FunctionComponent<T> interface
+- Added support for array children in components
+- Added support for optional children in components
+- Improved type safety for component props and children
+- Added new test cases for array and optional children
+
+## Bug Fixes:
+- Fixed type definitions for better TypeScript support
+- Reordered type checks in `transpile` for better type safety
+- Improved handling of empty values in the transpiler
+- Modified `transpile` function to handle number `0` as a valid renderable value
