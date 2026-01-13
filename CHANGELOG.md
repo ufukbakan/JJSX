@@ -1,5 +1,17 @@
+# v3.0.2 
+(2026-01-13)
+
+## Changes:
+- Updated README.md
+
+# v3.0.1 
+(2026-01-13)
+
+## Bug Fixes:
+- Fixed type definitions
+
 # v3.0.0 
-(2025-01-12)
+(2026-01-12)
 
 ## Breaking Changes:
 - Switched build format from CJS to ESM

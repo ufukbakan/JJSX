@@ -11,10 +11,11 @@
 <center>just jsx</center>
 
 ## What is JJSX
-JJSX allows you to use JSX syntax in any typescript project.
+JJSX allows you to use JSX syntax in any project. Compatible with esbuild, tsup, tsconfig with bun etc...
+It is framework agnostic. 949 bytes (gzipped) import cost.
 
 ## How does it work
-Thanks to tsconfig, it overrides jsx & fragment factory methods.
+Thanks to tsconfig/esbuild, it overrides jsx & fragment factory methods.
 
 ## Why should I use JJSX
 If you want to use JSX syntax without any other overhead, thats the most minimal library you can use.
@@ -27,8 +28,7 @@ After installing jjsx, adding only 4 properties to tsconfig is enough:
     "jsx": "react",
     "jsxFactory": "JJSX.jsxFactory",
     "jsxFragmentFactory": "JJSX.fragmentFactory",
-    "types": ["jjsx"],
-    "lib": ["DOM", "ES2017"] // This is recommended but not required
+    "lib": ["DOM"] // This is recommended but not required
     // ...rest
   }
   // ...
