@@ -103,8 +103,7 @@ export function transpile(jsx: JSX.Element): string {
     }
     const children = jsxChildren.map(transpile).join("");
     const attrs = Object.entries(props)
-      .filter(([key, value]) => key !== "children" && value !== undefined && value !== null)
-      .map(handleAttribute)
+      .filter(([key, value]) => key !== "children" && ["string", "number", "boolean"].includes(typeof value))
       .map(([key, value]) => ` ${key}="${value}"`)
       .join("");
     if (voidTags.includes(type)) return `<${type}${attrs}>`;

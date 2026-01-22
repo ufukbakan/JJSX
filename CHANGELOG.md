@@ -1,11 +1,17 @@
+# v3.0.6
+(2026-01-22)
+
+## Hotfix:
+- Allow only string, number & boolean attributes
+
 # v3.0.5
-(2026-10-13)
+(2026-01-22)
 
 ## Changes:
 - Completely omit falsy attributes
 
 # v3.0.3 & v3.0.4
-(2026-10-13)
+(2026-01-22)
 
 ## Changes:
 - Fix handling falsy attributes
