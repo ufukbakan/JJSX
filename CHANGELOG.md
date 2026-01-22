@@ -1,3 +1,9 @@
+# v3.0.3 & v3.0.4
+(2026-10-13)
+
+## Changes:
+- Fix handling falsy attributes
+
 # v3.0.2 
 (2026-01-13)
 

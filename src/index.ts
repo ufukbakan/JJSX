@@ -79,9 +79,8 @@ function handleAttribute(pair: [string, any]): [string, any] {
     '<': '&lt;',
     '>': '&gt;',
   };
-  const replacedValue = Object.keys(replaceMap).reduce((acc, key) => {
-    return acc.replace(new RegExp(key, 'g'), replaceMap[key as keyof typeof replaceMap]);
-  }, value);
+  const replacedValue = Object.keys(replaceMap)
+    .reduce((acc, key) => acc?.replace?.(new RegExp(key, 'g'), replaceMap[key as keyof typeof replaceMap]), value);
   return [key, replacedValue];
 }
 
