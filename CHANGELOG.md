@@ -1,3 +1,9 @@
+# v3.0.5
+(2026-10-13)
+
+## Changes:
+- Completely omit falsy attributes
+
 # v3.0.3 & v3.0.4
 (2026-10-13)
 

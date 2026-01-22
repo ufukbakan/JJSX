@@ -103,7 +103,7 @@ export function transpile(jsx: JSX.Element): string {
     }
     const children = jsxChildren.map(transpile).join("");
     const attrs = Object.entries(props)
-      .filter(([key]) => key !== "children")
+      .filter(([key, value]) => key !== "children" && value !== undefined && value !== null)
       .map(handleAttribute)
       .map(([key, value]) => ` ${key}="${value}"`)
       .join("");
