@@ -1,3 +1,19 @@
+# v3.1.0
+(2026-01-25)
+
+## Changes merged from RC version:
+- Better boolean attribute handling
+
+## Documentation:
+- README.md updated
+- CHANGELOG.md updated
+
+# v3.0.7-rc
+(2026-01-25)
+
+## Features:
+- Better boolean attribute handling
+
 # v3.0.6
 (2026-01-22)
 

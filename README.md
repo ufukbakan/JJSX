@@ -12,7 +12,7 @@
 
 ## What is JJSX
 JJSX allows you to use JSX syntax in any project. Compatible with esbuild, tsup, tsconfig with bun etc...
-It is framework agnostic. 949 bytes (gzipped) import cost.
+It is framework agnostic. 966 bytes (gzipped) import cost.
 
 ## How does it work
 Thanks to tsconfig/esbuild, it overrides jsx & fragment factory methods.
