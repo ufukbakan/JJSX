@@ -4,7 +4,6 @@ init();
 
 describe("Escaping tests", () => {
 
-
     test("Ampersand escaping Test", () => {
         const htmlString = transpile(<input value="He said Hello & Goodbye" />);
         expect(htmlString).toEqual(`<input value="He said Hello &amp; Goodbye">`)

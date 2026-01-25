@@ -7,6 +7,14 @@ const jjsxModule = {
   transpile,
 };
 
+const VOID_TAGS = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
+const ATTR_REPLACEMENT_MAP: Record<string, string> = { className: "class", htmlFor: "for" };
+const ESCAPE_MAP: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' };
+const ESCAPE_REGEX = /[&<>"']/g;
+const esc = (v: any) => typeof v === "string"
+  ? v.replace(ESCAPE_REGEX, s => ESCAPE_MAP[s])
+  : v;
+
 declare global {
   namespace JSX {
     type IntrinsicElements = JJSX.IntrinsicElements;
@@ -47,66 +55,38 @@ function isClassConstructor<T>(o: any): o is T {
   return o && o.toString && o.toString().startsWith("class") && o.prototype?.constructor === o;
 }
 
-const voidTags = [
-  "area",
-  "base",
-  "br",
-  "col",
-  "embed",
-  "hr",
-  "img",
-  "input",
-  "link",
-  "meta",
-  "param",
-  "source",
-  "track",
-  "wbr",
-];
-
 function handleAttribute(pair: [string, any]): [string, any] {
   const [key, value] = pair;
-  if (key === "className") {
-    return handleAttribute(["class", value]);
+  if (ATTR_REPLACEMENT_MAP[key]) {
+    return handleAttribute([ATTR_REPLACEMENT_MAP[key], value]);
   }
-  if (key === "htmlFor") {
-    return handleAttribute(["for", value]);
-  }
-  const replaceMap = {
-    '&': '&amp;',
-    '"': '&quot;',
-    "'": '&apos;',
-    '<': '&lt;',
-    '>': '&gt;',
-  };
-  const replacedValue = Object.keys(replaceMap)
-    .reduce((acc, key) => acc?.replace?.(new RegExp(key, 'g'), replaceMap[key as keyof typeof replaceMap]), value);
-  return [key, replacedValue];
+  return [key, esc(value)];
 }
 
 export function transpile(jsx: JSX.Element): string {
-  if (typeof jsx === "boolean") return "";
-  if (typeof jsx === "string") return jsx;
-  if (typeof jsx === "number") return `${jsx}`;
-  if (!jsx) return "";
-  if (typeof jsx === "object" && "render" in jsx) return transpile(jsx.render());
+  if (typeof jsx === "string" || typeof jsx === "number") return esc(String(jsx));
+  if (typeof jsx === "boolean" || !jsx) return "";
   if (Array.isArray(jsx)) return jsx.map(transpile).join("");
   if (typeof jsx === "object") {
+    if ("render" in jsx) return transpile(jsx.render());
     const { type, props = {}, children: jsxChildren = [] } = jsx;
     if (!type) return "";
     if (isClassConstructor<JJSX.RenderableClassConstructor<any>>(type)) {
       return transpile(new type(props));
     }
     if (typeof type === "function") {
-      const propsWithChildren = { ...props, children: jsxChildren };
-      return transpile(type(propsWithChildren));
+      return transpile(type({ ...props, children: jsxChildren }));
     }
     const children = jsxChildren.map(transpile).join("");
-    const attrs = Object.entries(props)
-      .filter(([key, value]) => key !== "children" && ["string", "number", "boolean"].includes(typeof value))
-      .map(([key, value]) => ` ${key}="${value}"`)
-      .join("");
-    if (voidTags.includes(type)) return `<${type}${attrs}>`;
+    let attrs = "";
+    for (const [k,v] of Object.entries(props)) {
+      if (k === "children" || v === false || v == null) continue;
+      
+      const [key, value] = handleAttribute([k,v]);
+      // Boolean attributes (e.g., disabled)
+      attrs += value === true ? ` ${key}` : ` ${key}="${value}"`;
+    }
+    if (VOID_TAGS.has(type)) return `<${type}${attrs}>`;
     return `<${type}${attrs}>${children}</${type}>`;
   }
   return "";
