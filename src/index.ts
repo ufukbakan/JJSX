@@ -80,7 +80,7 @@ export function transpile(jsx: JSX.Element): string {
     const children = jsxChildren.map(transpile).join("");
     let attrs = "";
     for (const [k,v] of Object.entries(props)) {
-      if (k === "children" || v === false || v == null) continue;
+      if (k === "children" || v === false || v == null || k.startsWith("__")) continue;
       
       const [key, value] = handleAttribute([k,v]);
       // Boolean attributes (e.g., disabled)
