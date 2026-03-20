@@ -201,6 +201,7 @@ export namespace JJSX {
     semantics: JsxAttributes<HTMLElement>;
     annotation: JsxAttributes<HTMLElement>;
     // XML sitemap elements
+    xml: JsxAttributes<HTMLElement>;
     urlset: JsxAttributes<HTMLElement>;
     url: JsxAttributes<HTMLElement>;
     loc: JsxAttributes<HTMLElement>;
