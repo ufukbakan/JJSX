@@ -1,3 +1,5 @@
+import { MaybePromise } from ".";
+
 export namespace JJSX {
   export interface ComponentProps {
     children?: Element;
@@ -17,7 +19,7 @@ export namespace JJSX {
 
   type RenderablePrimitives = string | number | boolean | null | undefined;
 
-  export type Element = RenderablePrimitives | Component<any> | RenderableClass | Element[];
+  export type Element = MaybePromise<RenderablePrimitives | Component<any> | RenderableClass | Element[]>;
 
   type JsxAttributes<T> = Record<string, string> | Partial<T> | { children?: Element };
 
