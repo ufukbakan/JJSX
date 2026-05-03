@@ -1,81 +1,122 @@
 import { transpile, init } from "../src";
+import Async from "./components/async";
+import Sync from "./components/sync";
+import SyncLayout from "./components/layout";
+import AsyncLayout from "./components/async-layout";
 
 init();
 
-interface Props {
-    children?: JSX.Element;
-    name: string;
-}
-
-function SyncComponent({ name, children }: Props) {
-    return <><div>should render {name}</div>{children}</>;
-}
-
-async function AsyncComponent({ name, children }: Props) {
-    return <><div>should render {name}</div>{children}</>;
-}
-
 class AsyncComponentClass {
-    name: string;
     children: JSX.Element;
 
-    constructor({ name, children }: Props) {
-        this.name = name;
+    constructor({ children }: JSX.ComponentProps) {
         this.children = children;
     }
     async render() {
-        return <><div>should render {this.name}</div>{this.children}</>;
+        return <><div>async component class</div>{this.children}</>;
     }
 }
 
-describe("async component", () => {
+describe("async render tests", () => {
 
-    test("async component with sync children", async () => {
-        const htmlString = await transpile(Promise.resolve(<AsyncComponent name="test" children={<SyncComponent name="child" children={undefined} />} />));
-        expect(htmlString).toEqual(`<div>should render test</div><div>should render child</div>`);
+    test("async", async () => {
+        const htmlString = await transpile(Promise.resolve(<Async children={<Sync children={undefined} />} />));
+        expect(htmlString).toEqual(`<div>async</div><div>sync</div>`);
     })
 
     test("async component with function call", async () => {
-        const htmlString = await transpile(AsyncComponent({ name: "test", children: <SyncComponent name="child" children={undefined} /> }));
-        expect(htmlString).toEqual(`<div>should render test</div><div>should render child</div>`);
+        const htmlString = await transpile(Async({ children: <Sync children={undefined} /> }));
+        expect(htmlString).toEqual(`<div>async</div><div>sync</div>`);
     })
 
     test("async component class", async () => {
-        const htmlString = await transpile(Promise.resolve(new AsyncComponentClass({ name: "test", children: <div>child</div> })));
-        expect(htmlString).toEqual(`<div>should render test</div><div>child</div>`);
+        const htmlString = await transpile(Promise.resolve(new AsyncComponentClass({ children: <div>child</div> })));
+        expect(htmlString).toEqual(`<div>async component class</div><div>child</div>`);
     })
 
     test("mixed components in parent", async () => {
         const htmlString = await transpile(Promise.resolve(
             <div id="parent">
-                <AsyncComponent name="async" />
-                <SyncComponent name="sync" />
+                <Async />
+                <Sync />
             </div>
         ));
-        expect(htmlString).toEqual(`<div id="parent"><div>should render async</div><div>should render sync</div></div>`);
+        expect(htmlString).toEqual(`<div id="parent"><div>async</div><div>sync</div></div>`);
     })
 
     test("mixed components with depth", async () => {
         const htmlString = await transpile(Promise.resolve(
             <div id="parent">
-                <AsyncComponent name="async">
-                    <SyncComponent name="child" />
-                </AsyncComponent>
-                <AsyncComponent name="async-2" children={<SyncComponent name="sync" />} />
+                <Async>
+                    <Sync />
+                </Async>
+                <Async children={<Sync />} />
             </div>
         ));
-        expect(htmlString).toEqual(`<div id="parent"><div>should render async</div><div>should render child</div><div>should render async-2</div><div>should render sync</div></div>`);
+        expect(htmlString).toEqual(`<div id="parent"><div>async</div><div>sync</div><div>async</div><div>sync</div></div>`);
     })
 
     test('async components array', async () => {
         const htmlString = await transpile(Promise.resolve(
             [
-                <AsyncComponent name="async1" />,
-                <SyncComponent name="sync1" />,
-                <AsyncComponent name="async2" />,
-                <SyncComponent name="sync2" />
+                <Async />,
+                <Sync />,
+                <Async />,
+                <Sync />
             ]
         ));
-        expect(htmlString).toEqual(`<div>should render async1</div><div>should render sync1</div><div>should render async2</div><div>should render sync2</div>`);
+        expect(htmlString).toEqual(`<div>async</div><div>sync</div><div>async</div><div>sync</div>`);
+    })
+
+    test('sync sync async', async () => {
+        const htmlString = await transpile(Promise.resolve(
+            <Sync>
+                <Sync>
+                    <Async />
+                </Sync>
+            </Sync>
+        ));
+        expect(htmlString).toEqual(`<div>sync</div><div>sync</div><div>async</div>`);
+    })
+
+    test('sync layout, sync children', async () => {
+        const htmlString = await transpile(Promise.resolve(
+            <SyncLayout>
+                <Sync />
+                <Sync />
+            </SyncLayout>
+        ));
+        expect(htmlString).toEqual(`<div><div>sync</div><div>sync</div></div>`);
+    })
+    
+    test('async layout, sync children', async () => {
+        const htmlString = await transpile(Promise.resolve(
+            <AsyncLayout>
+                <Sync />
+                <Sync />
+            </AsyncLayout>
+        ));
+        expect(htmlString).toEqual(`<div><div>sync</div><div>sync</div></div>`);
+    })
+
+    test('sync layout mixed children', async () => {
+        const htmlString = await transpile(Promise.resolve(
+            <SyncLayout>
+                <Sync />
+                <Async />
+            </SyncLayout>
+        ));
+        expect(htmlString).toEqual(`<div><div>sync</div><div>async</div></div>`);
+    })
+    
+    test('async layout mixed children', async () => {
+        const htmlString = await transpile(Promise.resolve(
+            <AsyncLayout>
+                <Sync />
+                <Async />
+            </AsyncLayout>
+        ));
+        expect(htmlString).toEqual(`<div><div>sync</div><div>async</div></div>`);
     })
 })
+

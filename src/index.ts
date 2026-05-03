@@ -1,5 +1,7 @@
 import { JJSX } from "./jjsx";
 
+const asyncProto = Object.getPrototypeOf(async () => { });
+
 const jjsxModule = {
   init,
   jsxFactory,
@@ -44,6 +46,9 @@ export function jsxFactory<T extends JSX.ComponentProps>(type: () => JSX.Element
       props = { ...props, children } as T;
     }
   }
+  if(Object.getPrototypeOf(type) === asyncProto) {
+    return Promise.resolve({ type, props, children });
+  }
   return {
     type,
     props,
@@ -68,16 +73,16 @@ function handleAttribute(pair: [string, any]): [string, any] {
 }
 
 function buildTag({ type, props, children }: { type: string; props: any; children: string }): string {
-    let attrs = "";
-    for (const [k, v] of Object.entries(props)) {
-      if (k === "children" || v === false || v == null || k.startsWith("__")) continue;
+  let attrs = "";
+  for (const [k, v] of Object.entries(props)) {
+    if (k === "children" || v === false || v == null || k.startsWith("__")) continue;
 
-      const [key, value] = handleAttribute([k, v]);
-      // Boolean attributes (e.g., disabled)
-      attrs += value === true ? ` ${key}` : ` ${key}="${value}"`;
-    }
-    if (VOID_TAGS.has(type)) return `<${type}${attrs}>`;
-    return `<${type}${attrs}>${children}</${type}>`;
+    const [key, value] = handleAttribute([k, v]);
+    // Boolean attributes (e.g., disabled)
+    attrs += value === true ? ` ${key}` : ` ${key}="${value}"`;
+  }
+  if (VOID_TAGS.has(type)) return `<${type}${attrs}>`;
+  return `<${type}${attrs}>${children}</${type}>`;
 }
 
 export function transpile(jsx: JSX.Element & Promise<any>): Promise<string>;
@@ -87,10 +92,10 @@ export function transpile(jsx: JSX.Element): MaybePromise<string> {
   if (jsx instanceof Promise) {
     return jsx.then(transpile);
   }
-  
+
   if (typeof jsx === "string" || typeof jsx === "number") return esc(String(jsx));
   if (typeof jsx === "boolean" || !jsx) return "";
-  
+
   if (Array.isArray(jsx)) {
     const results = jsx.map((e) => transpile(e));
     const hasPromises = results.some((r) => r && typeof r === 'object' && 'then' in r);
@@ -99,7 +104,7 @@ export function transpile(jsx: JSX.Element): MaybePromise<string> {
     }
     return results.join("");
   }
-  
+
   if (typeof jsx === "object" && jsx !== null) {
     if ("render" in jsx) {
       const result = jsx.render();
@@ -108,14 +113,14 @@ export function transpile(jsx: JSX.Element): MaybePromise<string> {
       }
       return transpile(result);
     }
-    
+
     const { type, props = {}, children: jsxChildren = [] } = jsx;
     if (!type) return "";
-    
+
     if (isClassConstructor<JJSX.RenderableClassConstructor<any>>(type)) {
       return transpile(new type(props));
     }
-    
+
     if (typeof type === "function") {
       const result = type({ ...props });
       if (result instanceof Promise) {
