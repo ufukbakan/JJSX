@@ -9,9 +9,7 @@ export default defineConfig([
         minify: true,
         treeshake: true,
         dts: false,
-        outExtension() {
-            return { js: '.js' };
-        },
+        target: 'es2020',
     },
     // TODO: Will be enabled if any CJS support required
     // {
