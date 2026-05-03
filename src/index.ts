@@ -1,3 +1,4 @@
+import a from "./a";
 import { JJSX } from "./jjsx";
 
 const jjsxModule = {
@@ -41,7 +42,7 @@ export function jsxFactory<T extends JSX.ComponentProps>(type: () => JSX.Element
   } else if (!('children' in props)) {
     props = { ...props, children } as T;
   }
-  if(type.constructor === (async () => {}).constructor) {
+  if(type.constructor === a.constructor) {
     return Promise.resolve({ type, props, children });
   }
   return { type, props, children };

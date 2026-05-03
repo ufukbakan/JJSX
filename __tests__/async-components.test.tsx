@@ -1,8 +1,9 @@
-import { transpile, init } from "../src";
+import { transpile, init, jsxFactory } from "../src";
 import Async from "./components/async";
 import Sync from "./components/sync";
 import SyncLayout from "./components/layout";
 import AsyncLayout from "./components/async-layout";
+import a from "../src/a";
 
 init();
 
@@ -21,17 +22,17 @@ describe("async render tests", () => {
 
     test("async", async () => {
         const htmlString = await transpile(Promise.resolve(<Async children={<Sync children={undefined} />} />));
-        expect(htmlString).toEqual(`<div>async</div><div>sync</div>`);
+        expect(htmlString).toEqual('<div>async</div><div>sync</div>');
     })
 
     test("async component with function call", async () => {
         const htmlString = await transpile(Async({ children: <Sync children={undefined} /> }));
-        expect(htmlString).toEqual(`<div>async</div><div>sync</div>`);
+        expect(htmlString).toEqual('<div>async</div><div>sync</div>');
     })
 
     test("async component class", async () => {
         const htmlString = await transpile(Promise.resolve(new AsyncComponentClass({ children: <div>child</div> })));
-        expect(htmlString).toEqual(`<div>async component class</div><div>child</div>`);
+        expect(htmlString).toEqual('<div>async component class</div><div>child</div>');
     })
 
     test("mixed components in parent", async () => {
@@ -41,7 +42,7 @@ describe("async render tests", () => {
                 <Sync />
             </div>
         ));
-        expect(htmlString).toEqual(`<div id="parent"><div>async</div><div>sync</div></div>`);
+        expect(htmlString).toEqual('<div id="parent"><div>async</div><div>sync</div></div>');
     })
 
     test("mixed components with depth", async () => {
@@ -53,7 +54,7 @@ describe("async render tests", () => {
                 <Async children={<Sync />} />
             </div>
         ));
-        expect(htmlString).toEqual(`<div id="parent"><div>async</div><div>sync</div><div>async</div><div>sync</div></div>`);
+        expect(htmlString).toEqual('<div id="parent"><div>async</div><div>sync</div><div>async</div><div>sync</div></div>');
     })
 
     test('async components array', async () => {
@@ -65,7 +66,7 @@ describe("async render tests", () => {
                 <Sync />
             ]
         ));
-        expect(htmlString).toEqual(`<div>async</div><div>sync</div><div>async</div><div>sync</div>`);
+        expect(htmlString).toEqual('<div>async</div><div>sync</div><div>async</div><div>sync</div>');
     })
 
     test('sync sync async', async () => {
@@ -76,7 +77,7 @@ describe("async render tests", () => {
                 </Sync>
             </Sync>
         ));
-        expect(htmlString).toEqual(`<div>sync</div><div>sync</div><div>async</div>`);
+        expect(htmlString).toEqual('<div>sync</div><div>sync</div><div>async</div>');
     })
 
     test('sync layout, sync children', async () => {
@@ -86,7 +87,7 @@ describe("async render tests", () => {
                 <Sync />
             </SyncLayout>
         ));
-        expect(htmlString).toEqual(`<div><div>sync</div><div>sync</div></div>`);
+        expect(htmlString).toEqual('<div><div>sync</div><div>sync</div></div>');
     })
     
     test('async layout, sync children', async () => {
@@ -96,7 +97,7 @@ describe("async render tests", () => {
                 <Sync />
             </AsyncLayout>
         ));
-        expect(htmlString).toEqual(`<div><div>sync</div><div>sync</div></div>`);
+        expect(htmlString).toEqual('<div><div>sync</div><div>sync</div></div>');
     })
 
     test('sync layout mixed children', async () => {
@@ -106,7 +107,7 @@ describe("async render tests", () => {
                 <Async />
             </SyncLayout>
         ));
-        expect(htmlString).toEqual(`<div><div>sync</div><div>async</div></div>`);
+        expect(htmlString).toEqual('<div><div>sync</div><div>async</div></div>');
     })
     
     test('async layout mixed children', async () => {
@@ -116,7 +117,23 @@ describe("async render tests", () => {
                 <Async />
             </AsyncLayout>
         ));
-        expect(htmlString).toEqual(`<div><div>sync</div><div>async</div></div>`);
+        expect(htmlString).toEqual('<div><div>sync</div><div>async</div></div>');
+    })
+
+    test('non awaited async component', async () => {
+        const result = transpile(<Async />);
+        expect(result).toBeInstanceOf(Promise);
+    })
+
+    test('non awaited sync component', async () => {
+        const result = transpile(<Sync />);
+        expect(result).toEqual('<div>sync</div>');
+    })
+
+    test('async jsx factory', async () => {
+        a();
+        const result = jsxFactory(async () => <div>async</div>, {}, []);
+        expect(result).prototype = a.prototype;
     })
 })
 
