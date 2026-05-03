@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "4.0.0-rc.3",
+  "version": "4.0.0",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "exports": {
