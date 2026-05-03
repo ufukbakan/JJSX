@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "4.0.0-rc.1",
+  "version": "4.0.0-rc.2",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -44,5 +44,6 @@
     "tsup": "^8.4.0",
     "typescript": "5",
     "vitest": "^3.0.8"
-  }
+  },
+  "files": ["dist"]
 }
