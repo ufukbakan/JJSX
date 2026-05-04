@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/ufukbakan/JJSX/refs/heads/main/logo.svg" height="120">
 
-![Bundle Size](https://deno.bundlejs.com/badge?q=jjsx)
+![Bundle Size](https://img.shields.io/bundlejs/size/jjsx?label=gzipped%20size)
 ![License](https://img.shields.io/npm/l/jjsx)
 ![Type Definitions](https://img.shields.io/npm/types/jjsx)
 [![NPM Version](https://img.shields.io/npm/v/jjsx)](https://www.npmjs.com/package/jjsx)
