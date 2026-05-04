@@ -8,20 +8,7 @@ export default defineConfig([
         clean: true,
         minify: true,
         treeshake: true,
-        dts: false,
+        dts: true,
         target: 'es2020',
     },
-    // TODO: Will be enabled if any CJS support required
-    // {
-    //     entry: ['src/*.ts'],
-    //     format: ['cjs'],
-    //     outDir: 'dist/cjs',
-    //     clean: true,
-    //     minify: true,
-    //     treeshake: true,
-    //     dts: false,
-    //     outExtension() {
-    //         return { js: '.js' };
-    //     },
-    // },
 ]);

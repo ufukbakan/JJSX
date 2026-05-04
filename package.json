@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "type": "module",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "tsup && tsc -p tsconfig.build.json --emitDeclarationOnly && node postbuild.mjs",
+    "build": "tsup",
     "test": "vitest run --coverage"
   },
   "keywords": [
