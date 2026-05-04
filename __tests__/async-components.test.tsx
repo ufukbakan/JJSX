@@ -3,7 +3,6 @@ import Async from "./components/async";
 import Sync from "./components/sync";
 import SyncLayout from "./components/layout";
 import AsyncLayout from "./components/async-layout";
-import a from "../src/a";
 
 init();
 
@@ -131,9 +130,8 @@ describe("async render tests", () => {
     })
 
     test('async jsx factory', async () => {
-        a();
         const result = jsxFactory(async () => <div>async</div>, {}, []);
-        expect(result).prototype = a.prototype;
+        expect(result).prototype = Promise.prototype;
     })
 })
 

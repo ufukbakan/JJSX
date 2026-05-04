@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "tsup",
+    "build": "tsup && tsc --emitDeclarationOnly --outDir dist",
     "test": "vitest run --coverage"
   },
   "keywords": [

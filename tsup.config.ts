@@ -2,13 +2,14 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig([
     {
-        entry: ['src/*.ts'],
+        entry: ['src/index.ts'],
         format: ['esm'],
         outDir: 'dist',
         clean: true,
         minify: true,
         treeshake: true,
-        dts: true,
         target: 'es2020',
+        bundle: true,
+        dts: false,
     },
 ]);

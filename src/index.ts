@@ -1,5 +1,4 @@
-import a from "./a";
-import { JJSX } from "./jjsx";
+import type { JJSX } from "./jjsx";
 
 const jjsxModule = {
   init,
@@ -20,7 +19,7 @@ const esc = (v: any) => typeof v === "string"
 
 declare global {
   namespace JSX {
-    type IntrinsicElements = JJSX.IntrinsicElements;
+    type IntrinsicElements = import('./jjsx').JJSX.IntrinsicElements;
     type Element = JJSX.Element;
     type Component<T extends JJSX.ComponentProps> = JJSX.Component<T>
     type FunctionComponent<T> = (props: T) => JSX.Element;
@@ -42,7 +41,7 @@ export function jsxFactory<T extends JSX.ComponentProps>(type: () => JSX.Element
   } else if (!('children' in props)) {
     props = { ...props, children } as T;
   }
-  if(type.constructor === a.constructor) {
+  if (type.constructor.name === 'AsyncFunction') {
     return Promise.resolve({ type, props, children });
   }
   return { type, props, children };
@@ -52,7 +51,7 @@ export function fragmentFactory(args: { children: JSX.Element[] }): JSX.Element[
   return args.children;
 }
 
-const isClassConstructor = <T>(o: any): o is T => 
+const isClassConstructor = <T>(o: any): o is T =>
   o && o.toString && o.toString().startsWith("class") && o.prototype?.constructor === o;
 
 const handleAttribute = (pair: [string, any]): [string, any] => {
@@ -102,7 +101,7 @@ export function transpile(jsx: JSX.Element): MaybePromise<string> {
     }
     const childResults = jsxChildren.map(transpile);
     const hasChildPromises = childResults.some(r => typeof r === 'object' && 'then' in r);
-    return hasChildPromises 
+    return hasChildPromises
       ? Promise.all(childResults).then(r => r.join("")).then(children => buildTag({ type, props, children }))
       : buildTag({ type, props, children: childResults.join("") });
   }
