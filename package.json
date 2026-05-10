@@ -1,6 +1,6 @@
 {
   "name": "jjsx",
-  "version": "4.0.3",
+  "version": "5.0.0",
   "description": "just jsx",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
