@@ -1,11 +1,12 @@
 import type { JJSX } from "./jjsx";
 
 const jjsxModule = {
-  init,
   jsxFactory,
   fragmentFactory,
   transpile,
 };
+
+globalThis.JJSX = jjsxModule;
 
 export type MaybePromise<T> = T | Promise<T>;
 
@@ -29,10 +30,6 @@ declare global {
     }
   }
   var JJSX: typeof jjsxModule;
-}
-
-export function init() {
-  globalThis.JJSX = jjsxModule;
 }
 
 export function jsxFactory<T extends JSX.ComponentProps>(type: () => JSX.Element, props: T, ...children: any[]): JSX.Element {
